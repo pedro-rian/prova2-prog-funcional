@@ -31,7 +31,7 @@ defmodule Menu do
 		codCon = IO.gets("") |> String.trim()
 		IO.puts("Digite os dados especificos:")
 		codDat = IO.gets("") |> String.trim()
-		
+		#codificador()
 		IO.puts(inspect(codBan))
 		IO.puts(inspect(codCoi))
 		IO.puts(inspect(codTim))
@@ -42,6 +42,9 @@ defmodule Menu do
 	end
 	
 	def menuDecodificador() do
+		IO.puts("Digite a lista de sequencias")
+		codBan = IO.gets("") |> String.trim()
+		#decodificador()
 		1
 	end
 end

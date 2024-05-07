@@ -1,0 +1,64 @@
+Linha digitavel
+1)  1-3   Número do banco
+2)  4     código da moeda
+4)  5-8   campo livre
+5)  9     campo livre
+6)  10    digito verificado do campo 1
+7)  11-20 campo livre
+8)  21    digito verificado do campo 2
+9)  22-31 campo livre
+10) 32    digito verificado do campo 3
+11) 33    digito verificado do codigo de barras
+12) 34-37 fator de vencimento
+13) 38-47 valor
+
+1)  001
+2)  9
+3)  
+4)  
+5)  
+6)  
+7)  
+8)  
+9)  
+10) 
+11) 
+12) 9686
+13) 2040
+001.9.0000.0.9.0274839700.3.0033256717.1.4.9686.0000002040
+
+Codigo de barras
+1)  1-3 Número do banco
+2)  4 código da moeda
+3)  5 DV cod barras
+4)  6-9 Fator Vencimento
+5)  10-19 Valor
+6)  20-23 Convenio
+7)  24-30 Comp Nosso-Número
+8)  31-34 Agencia
+9)  35-42 Conta Corrente
+10) 43-44 Tipo de carteira
+
+1)  001
+2)  9
+3)  4
+4)  9686
+5)  0000002040
+6)  0000
+7)  0027483
+8)  9700
+9)  00332567
+10) 17
+001.9.4.9686.0000002040.0000.0027483.9700.00332567.17
+
+INPUT:
+001
+9
+14/04/2024 = 9686
+20,40 = 2040
+274839700000332567 =  0027483, 9700, 0000, 00332567
+17
+
+001.9.7.9694.0000032102.0000.0027483.9700.00328389.17
+
+

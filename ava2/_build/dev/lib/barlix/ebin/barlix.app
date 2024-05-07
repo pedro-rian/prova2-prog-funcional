@@ -1,0 +1,13 @@
+{application,barlix,
+             [{applications,[kernel,stdlib,elixir,logger,eex,png]},
+              {description,"barlix"},
+              {modules,['Elixir.Barlix','Elixir.Barlix.Code128',
+                        'Elixir.Barlix.Code128.State','Elixir.Barlix.Code39',
+                        'Elixir.Barlix.Code93','Elixir.Barlix.CostOptimizer',
+                        'Elixir.Barlix.CostOptimizer.Node',
+                        'Elixir.Barlix.EAN13','Elixir.Barlix.Error',
+                        'Elixir.Barlix.ITF','Elixir.Barlix.PNG',
+                        'Elixir.Barlix.SVG','Elixir.Barlix.UPCE',
+                        'Elixir.Barlix.UTF','Elixir.Barlix.Utils']},
+              {registered,[]},
+              {vsn,"0.6.3"}]}.

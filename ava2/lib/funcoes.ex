@@ -46,43 +46,43 @@ defmodule DV do
 end
 
 defmodule CalculoDatas do
-	def ehBissexto(ano) do
-		if rem(ano, 4) == 0 && rem(ano, 100)!=0 || rem(ano, 400) == 0 do
-			true
-		else
-			false
-		end
-	end
+  def ehBissexto(ano) do
+    if (rem(ano, 4) == 0 && rem(ano, 100) != 0) || rem(ano, 400) == 0 do
+      true
+    else
+      false
+    end
+  end
 
-	def calcularDias(diaA, mesA, anoA, diaB, mesB, anoB) do
-		diasA = diasMeses(diaA, mesA, ehBissexto(anoA))
-		diasB = diasMeses(diaB, mesB, ehBissexto(anoB))
-		diasB - diasA + diasAnos(anoA, anoB)
-	end
+  def calcularDias(diaA, mesA, anoA, diaB, mesB, anoB) do
+    diasA = diasMeses(diaA, mesA, ehBissexto(anoA))
+    diasB = diasMeses(diaB, mesB, ehBissexto(anoB))
+    diasB - diasA + diasAnos(anoA, anoB)
+  end
 
-	def diasMeses(dia, mes, true) do
-		diasFaltantesPorMes = [0, 31, 609, 91, 121, 152, 182, 213, 244, 274, 305, 335]
-		dias = dia-1 + Enum.at(diasFaltantesPorMes, mes-1)
-		dias
-	end
+  def diasMeses(dia, mes, true) do
+    diasFaltantesPorMes = [0, 31, 609, 91, 121, 152, 182, 213, 244, 274, 305, 335]
+    dias = dia - 1 + Enum.at(diasFaltantesPorMes, mes - 1)
+    dias
+  end
 
-	def diasMeses(dia, mes, false) do
-		diasFaltantesPorMes = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334]
-		dias = dia-1 + Enum.at(diasFaltantesPorMes, mes-1)
-		dias
-	end
+  def diasMeses(dia, mes, false) do
+    diasFaltantesPorMes = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334]
+    dias = dia - 1 + Enum.at(diasFaltantesPorMes, mes - 1)
+    dias
+  end
 
-	def diasAnos(anoA, anoB) do
-		if anoA == anoB do
-			0
-		else
-			if ehBissexto(anoA) do
-				366 + diasAnos(anoA+1, anoB)
-			else
-				365 + diasAnos(anoA+1, anoB)
-			end
-		end
-	end
+  def diasAnos(anoA, anoB) do
+    if anoA == anoB do
+      0
+    else
+      if ehBissexto(anoA) do
+        366 + diasAnos(anoA + 1, anoB)
+      else
+        365 + diasAnos(anoA + 1, anoB)
+      end
+    end
+  end
 end
 
 defmodule Codificador do
@@ -99,22 +99,25 @@ defmodule Codificador do
 
     [dia_str, mes_str, ano_str]
   end
+
   def completarZeros(codigo, n) do
     qtd_zeros = n - String.length(codigo)
     codigo_str = String.duplicate("0", qtd_zeros) <> codigo
     codigo_str
   end
+
   def padronizarValor(valor) do
     qtd_zeros = 10 - String.length(valor)
     valor_str = String.duplicate("0", qtd_zeros) <> valor
     valor_str
   end
+
   def padronizarConvenio(convenio) do
-    #274839700000332567 =  0027483, 9700, 0000, 00332567
+    # 27483970000332567 =  0027483, 9700, 0000, 00332567
     convenio_chars = String.graphemes(convenio)
     {parte2, resto1} = Enum.split(convenio_chars, 5)
     {parte3, resto2} = Enum.split(resto1, 4)
-    {parte1, parte4} = Enum.split(resto2, 3)
+    {parte1, parte4} = Enum.split(resto2, 2)
 
     parte1 = completarZeros(Enum.join(parte1), 4)
     parte2 = completarZeros(Enum.join(parte2), 7)
@@ -125,27 +128,32 @@ defmodule Codificador do
 end
 
 defmodule CalculoBarras do
-	def calcDV(lista) do
-		rest = 11 - rem(calcPass(lista, 4), 11)
-		cond do
-			rest == 0 || rest == 10 || rest == 11 ->
-				1
-			true ->
-				rest
-		end
-	end
-	def calcPass([], _) do
-		0
-	end
-	def calcPass(lista, 1) do
-		hd(lista) * 9 + calcPass(tl(lista), 8)
-	end
-	def calcPass(lista, cont) do
-		hd(lista) * cont + calcPass(tl(lista), cont-1)
-	end
+  def calcDV(lista) do
+    rest = 11 - rem(calcPass(lista, 4), 11)
+
+    cond do
+      rest == 0 || rest == 10 || rest == 11 ->
+        1
+
+      true ->
+        rest
+    end
+  end
+
+  def calcPass([], _) do
+    0
+  end
+
+  def calcPass(lista, 1) do
+    hd(lista) * 9 + calcPass(tl(lista), 8)
+  end
+
+  def calcPass(lista, cont) do
+    hd(lista) * cont + calcPass(tl(lista), cont - 1)
+  end
 end
 
-#result = CalculoDatas.calcularDias(07,10,1997, 14,04,2024)
-#IO.puts(inspect(result))
+# result = CalculoDatas.calcularDias(07,10,1997, 14,04,2024)
+# IO.puts(inspect(result))
 
-#System.halt(0)
+# System.halt(0)

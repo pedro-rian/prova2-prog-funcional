@@ -7,6 +7,18 @@ defmodule Menu do
     escolha(choice)
   end
 
+  def at(list, index) do
+  	at(list, index, 1)
+  end
+  
+  def at(list, index, cont) do
+  	if cont == index do
+  		Integer.to_string(hd(list))
+  	else
+  		at(tl(list), index, cont+1)
+  	end
+  end
+  
   def escolha(choice) do
     cond do
       choice == "Codificador" || choice == "c" ->
@@ -68,9 +80,59 @@ defmodule Menu do
         "." <>
         Integer.to_string(dv_cod_barras) <>
         "." <> codTim <> "." <> codPri <> "." <> codCon <> "." <> codDat
-
+    #001.9.4.9686.0000002040.0000.0027483.9700.00332567.17
+    #001.9.0000.0.9.0274839700.3.0033256717.1.4.9686.0000002040
     
-
+    cb = String.replace(cod_barras_final, ".", "")
+    codigo_barras = String.to_charlist(cb)
+    IO.puts(cb)
+    IO.puts(inspect(codigo_barras))
+    linha_digitavel =
+        codBan <>
+        "." <>
+        codCoi <>
+        "." <>
+        at(codigo_barras, 20) <>
+        "." <>
+        at(codigo_barras, 21) <>
+        at(codigo_barras, 22) <>
+        at(codigo_barras, 23) <>
+        at(codigo_barras, 24) <>
+        "0" <>
+        " " <>
+        at(codigo_barras, 25) <>
+        at(codigo_barras, 26) <>
+        at(codigo_barras, 27) <>
+        at(codigo_barras, 28) <>
+        at(codigo_barras, 29) <>
+        "." <>
+        at(codigo_barras, 30) <>
+        at(codigo_barras, 31) <>
+        at(codigo_barras, 32) <>
+        at(codigo_barras, 33) <>
+        at(codigo_barras, 34) <>
+        "3" <>
+        at(codigo_barras, 35) <>
+        at(codigo_barras, 36) <>
+        at(codigo_barras, 37) <>
+        at(codigo_barras, 38) <>
+        at(codigo_barras, 39) <>
+        "." <>
+        at(codigo_barras, 40) <>
+        at(codigo_barras, 41) <>
+        at(codigo_barras, 42) <>
+        at(codigo_barras, 43) <>
+        at(codigo_barras, 44) <>
+        "1" <>
+        " " <>
+        Integer.to_string(dv_cod_barras) <>
+        "." <>
+        codTim <>
+        "." <>
+        codPri
+    
+    IO.puts(inspect(linha_digitavel))
+    
     Barlix.ITF.encode!(String.replace(cod_barras_final, ".", ""))
     |> Barlix.PNG.print(file: "barcode.png")
     IO.puts("O código de barras gerado foi gerado e salvo em: /ava2/barcode.png \n")

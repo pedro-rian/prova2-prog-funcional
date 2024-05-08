@@ -59,7 +59,6 @@ defmodule Menu do
     cod_barras = codBan <> codCoi <> codTim <> codPri <> codCon <> codDat
     cod_barras = String.replace(cod_barras, ".", "")
     cod_barras_int = Enum.map(String.graphemes(cod_barras), &String.to_integer/1)
-    IO.puts(inspect(cod_barras))
     dv_cod_barras = CalculoBarras.calcDV(cod_barras_int)
 
     cod_barras_final =
@@ -70,10 +69,11 @@ defmodule Menu do
         Integer.to_string(dv_cod_barras) <>
         "." <> codTim <> "." <> codPri <> "." <> codCon <> "." <> codDat
 
-    IO.puts("O código de barras gerado é: \n" <> cod_barras_final)
+    
 
     Barlix.ITF.encode!(String.replace(cod_barras_final, ".", ""))
     |> Barlix.PNG.print(file: "barcode.png")
+    IO.puts("O código de barras gerado foi gerado e salvo em: /ava2/barcode.png \n")
   end
 
   def menuDecodificador() do

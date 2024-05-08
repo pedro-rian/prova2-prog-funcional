@@ -49,11 +49,11 @@ defmodule Menu do
     codPri = String.replace(codPri, ",", "")
     codPri = Codificador.completarZeros(codPri, 10)
 
-    IO.puts("Digite o tipo de convenio:")
+    IO.puts("Digite o tipo de convenio:(Nosso número)")
     codCon = IO.gets("") |> String.trim()
     codCon = Codificador.padronizarConvenio(codCon)
 
-    IO.puts("Digite os dados especificos:")
+    IO.puts("Digite os dados especificos:(Carteira)")
     codDat = IO.gets("") |> String.trim()
 
     cod_barras = codBan <> codCoi <> codTim <> codPri <> codCon <> codDat

@@ -153,6 +153,20 @@ defmodule CalculoBarras do
   end
 end
 
+defmodule Utils do
+	def at(list, index) do
+  	at(list, index, 1)
+  end
+  
+  def at(list, index, cont) do
+  	if cont == index do
+  		Integer.to_string(hd(list))
+  	else
+  		at(tl(list), index, cont+1)
+  	end
+  end
+end
+
 # result = CalculoDatas.calcularDias(07,10,1997, 14,04,2024)
 # IO.puts(inspect(result))
 

@@ -154,19 +154,18 @@ defmodule Decodificador do
   end
   def dv3(list) do
   	campo = Utils.range(list, 35, 44)
-  	IO.puts(campo)
   	campoList = String.codepoints(campo)
   	list_integers = Enum.map(campoList, &String.to_integer/1)
   	dv = DV.digito_verificador(list_integers)
   	campo <> Integer.to_string(dv)
   end
   def decodificador(list) do
-  	IO.puts(Utils.range(1, 3))
+  	IO.puts(Utils.range(list, 1, 3))
   	IO.puts(Utils.at(list, 4))
   	#
-  	IO.puts(Utils.range(35, 44))
-  	#
-  	IO.puts(Utils.range(30, 31))
+  	IO.puts(Utils.range(list, 10, 19))
+  	IO.puts(Utils.range(list, 26, 42))
+  	IO.puts(Utils.range(list, 43, 44))
   end
 end
 
@@ -214,7 +213,7 @@ defmodule Utils do
 	def range(list, indexInit, indexFinal, actual) when actual < indexFinal do
 		at(list, actual) <> range(list, indexInit, indexFinal, actual+1)
 	end
-	def range(list, indexInit, indexFinal, actual) when actual == indexFinal do
+	def range(list, _, indexFinal, actual) when actual == indexFinal do
 		at(list, actual)
 	end
 end
@@ -223,3 +222,5 @@ end
 # IO.puts(inspect(result))
 
 # System.halt(0)
+
+#00194968600000020400000002748397000033256717

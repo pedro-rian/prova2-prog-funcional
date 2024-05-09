@@ -69,12 +69,11 @@ defmodule Menu do
         Integer.to_string(dv_cod_barras) <>
         "." <> codTim <> "." <> codPri <> "." <> codCon <> "." <> codDat
 
-    
+    IO.puts(cod_barras_final)
     cb = String.replace(cod_barras_final, ".", "")
     codigo_barras = String.codepoints(cb) #MODIFICAR?
     linha_digitavel = Decodificador.decoder(codigo_barras)
     IO.puts(inspect(linha_digitavel))
-    IO.puts(inspect(Decodificador.dv1(codigo_barras)))
     Barlix.ITF.encode!(String.replace(cod_barras_final, ".", ""))
     |> Barlix.PNG.print(file: "barcode.png")
     IO.puts("O código de barras gerado foi gerado e salvo em: /ava2/barcode.png \n")

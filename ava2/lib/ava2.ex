@@ -82,9 +82,9 @@ defmodule Menu do
 
   def menuDecodificador() do
     IO.puts("Digite a lista de sequencias")
-    codBan = IO.gets("") |> String.trim()
-    # decodificador()
-    1
+    codBarRaw = IO.gets("") |> String.trim()
+    codBar = String.codepoints(codBarRaw)
+    Decodificador.decodificador(codBar)
   end
 end
 

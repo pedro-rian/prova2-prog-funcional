@@ -160,6 +160,14 @@ defmodule Decodificador do
   	dv = DV.digito_verificador(list_integers)
   	campo <> Integer.to_string(dv)
   end
+  def decodificador(list) do
+  	IO.puts(Utils.range(1, 3))
+  	IO.puts(Utils.at(list, 4))
+  	#
+  	IO.puts(Utils.range(35, 44))
+  	#
+  	IO.puts(Utils.range(30, 31))
+  end
 end
 
 defmodule CalculoBarras do

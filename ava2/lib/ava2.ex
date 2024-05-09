@@ -44,7 +44,7 @@ defmodule Menu do
         )
       )
 
-    IO.puts("Digite o valor: '0,00")
+    IO.puts("Digite o valor: '0,00'")
     codPri = IO.gets("") |> String.trim()
     codPri = String.replace(codPri, ",", "")
     codPri = Codificador.completarZeros(codPri, 10)
@@ -68,57 +68,13 @@ defmodule Menu do
         "." <>
         Integer.to_string(dv_cod_barras) <>
         "." <> codTim <> "." <> codPri <> "." <> codCon <> "." <> codDat
-    #001.9.4.9686.0000002040.0000.0027483.9700.00332567.17
-    #001.9.0000.0.9.0274839700.3.0033256717.1.4.9686.0000002040
+
     
     cb = String.replace(cod_barras_final, ".", "")
-    codigo_barras = String.to_charlist(cb)
-    linha_digitavel =
-        codBan <>
-        "." <>
-        codCoi <>
-        "." <>
-        Utils.at(codigo_barras, 20) <>
-        "." <>
-        Utils.at(codigo_barras, 21) <>
-        Utils.at(codigo_barras, 22) <>
-        Utils.at(codigo_barras, 23) <>
-        Utils.at(codigo_barras, 24) <>
-        "0" <>
-        " " <>
-        Utils.at(codigo_barras, 25) <>
-        Utils.at(codigo_barras, 26) <>
-        Utils.at(codigo_barras, 27) <>
-        Utils.at(codigo_barras, 28) <>
-        Utils.at(codigo_barras, 29) <>
-        "." <>
-        Utils.at(codigo_barras, 30) <>
-        Utils.at(codigo_barras, 31) <>
-        Utils.at(codigo_barras, 32) <>
-        Utils.at(codigo_barras, 33) <>
-        Utils.at(codigo_barras, 34) <>
-        "3" <>
-        Utils.at(codigo_barras, 35) <>
-        Utils.at(codigo_barras, 36) <>
-        Utils.at(codigo_barras, 37) <>
-        Utils.at(codigo_barras, 38) <>
-        Utils.at(codigo_barras, 39) <>
-        "." <>
-        Utils.at(codigo_barras, 40) <>
-        Utils.at(codigo_barras, 41) <>
-        Utils.at(codigo_barras, 42) <>
-        Utils.at(codigo_barras, 43) <>
-        Utils.at(codigo_barras, 44) <>
-        "1" <>
-        " " <>
-        Integer.to_string(dv_cod_barras) <>
-        "." <>
-        codTim <>
-        "." <>
-        codPri
-    
+    codigo_barras = String.codepoints(cb) #MODIFICAR?
+    linha_digitavel = Decodificador.decoder(codigo_barras)
     IO.puts(inspect(linha_digitavel))
-    
+    IO.puts(inspect(Decodificador.dv1(codigo_barras)))
     Barlix.ITF.encode!(String.replace(cod_barras_final, ".", ""))
     |> Barlix.PNG.print(file: "barcode.png")
     IO.puts("O código de barras gerado foi gerado e salvo em: /ava2/barcode.png \n")

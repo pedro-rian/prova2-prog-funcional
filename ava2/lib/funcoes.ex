@@ -41,7 +41,8 @@ defmodule DV do
 
     soma = Funcoes.soma(lista_gerada)
     dv = Funcoes.dezena_imediata(soma) - soma
-    [h1 | t1] ++ [dv]
+    dv
+    #[h1 | t1] ++ [dv]
   end
 end
 
@@ -127,6 +128,40 @@ defmodule Codificador do
   end
 end
 
+defmodule Decodificador do
+  def decoder(list) do
+  	dv1(list) <>
+  	dv2(list) <>
+  	dv3(list) <>
+  	Utils.at(list, 5) <>
+  	Utils.range(list, 6, 9) <>
+  	Utils.range(list, 10, 19)
+  end
+  def dv1(list) do
+  	campo = Utils.range(list, 1, 4) <> Utils.range(list, 20, 24)
+  	calcCampo = "0" <> campo
+  	campoList = String.codepoints(calcCampo)
+  	list_integers = Enum.map(campoList, &String.to_integer/1)
+  	dv = DV.digito_verificador(list_integers)
+  	campo <> Integer.to_string(dv)
+  end
+  def dv2(list) do
+  	campo = Utils.range(list, 25, 34)
+  	campoList = String.codepoints(campo)
+  	list_integers = Enum.map(campoList, &String.to_integer/1)
+  	dv = DV.digito_verificador(list_integers)
+  	campo <> Integer.to_string(dv)
+  end
+  def dv3(list) do
+  	campo = Utils.range(list, 35, 44)
+  	IO.puts(campo)
+  	campoList = String.codepoints(campo)
+  	list_integers = Enum.map(campoList, &String.to_integer/1)
+  	dv = DV.digito_verificador(list_integers)
+  	campo <> Integer.to_string(dv)
+  end
+end
+
 defmodule CalculoBarras do
   def calcDV(lista) do
     rest = 11 - rem(calcPass(lista, 4), 11)
@@ -155,16 +190,25 @@ end
 
 defmodule Utils do
 	def at(list, index) do
-  	at(list, index, 1)
-  end
+		at(list, index, 1)
+	end
   
-  def at(list, index, cont) do
-  	if cont == index do
-  		Integer.to_string(hd(list))
-  	else
-  		at(tl(list), index, cont+1)
-  	end
-  end
+	def at(list, index, cont) do
+		if cont == index do
+			hd(list)
+		else
+			at(tl(list), index, cont+1)
+		end
+	end
+	def range(list, indexInit, indexFinal) do
+		range(list, indexInit, indexFinal, indexInit)
+	end
+	def range(list, indexInit, indexFinal, actual) when actual < indexFinal do
+		at(list, actual) <> range(list, indexInit, indexFinal, actual+1)
+	end
+	def range(list, indexInit, indexFinal, actual) when actual == indexFinal do
+		at(list, actual)
+	end
 end
 
 # result = CalculoDatas.calcularDias(07,10,1997, 14,04,2024)

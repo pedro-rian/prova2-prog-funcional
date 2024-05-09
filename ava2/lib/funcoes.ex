@@ -112,6 +112,15 @@ defmodule Codificador do
     valor_str = String.duplicate("0", qtd_zeros) <> valor
     valor_str
   end
+  
+  def invValor(valor) do
+  	list = String.codepoints(valor)
+  	cents = Utils.range(list, 9, 10)
+  	real = Utils.range(list, 1, 8)
+  	realInt = String.to_integer(real)
+  	realStr = Integer.to_string(real)
+  	real <> "," <> cents
+  end
 
   def padronizarConvenio(convenio) do
     # 27483970000332567 =  0027483, 9700, 0000, 00332567
@@ -160,12 +169,14 @@ defmodule Decodificador do
   	campo <> Integer.to_string(dv)
   end
   def decodificador(list) do
-  	IO.puts(Utils.range(list, 1, 3))
-  	IO.puts(Utils.at(list, 4))
+  	IO.puts("Código Banco: " <> Utils.range(list, 1, 3))
+  	#IO.puts("Moeda: " <> Codificador.invValor(Utils.at(list, 4)))
+  	IO.puts("Moeda: " <> Utils.at(list, 4))
+  	IO.puts("Data: " <> "01/01/1970")
   	#
-  	IO.puts(Utils.range(list, 10, 19))
-  	IO.puts(Utils.range(list, 26, 42))
-  	IO.puts(Utils.range(list, 43, 44))
+  	IO.puts("Valor: " <> Utils.range(list, 10, 19))
+  	IO.puts("Tipo convenio: " <> Utils.range(list, 26, 42))
+  	IO.puts("Dados especificos: " <> Utils.range(list, 43, 44))
   end
 end
 
@@ -218,9 +229,3 @@ defmodule Utils do
 	end
 end
 
-# result = CalculoDatas.calcularDias(07,10,1997, 14,04,2024)
-# IO.puts(inspect(result))
-
-# System.halt(0)
-
-#00194968600000020400000002748397000033256717

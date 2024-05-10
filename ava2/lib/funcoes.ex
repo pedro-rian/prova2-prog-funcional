@@ -62,7 +62,7 @@ defmodule CalculoDatas do
   end
 
   def diasMeses(dia, mes, true) do
-    diasFaltantesPorMes = [0, 31, 609, 91, 121, 152, 182, 213, 244, 274, 305, 335]
+    diasFaltantesPorMes = [0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335]
     dias = dia - 1 + Enum.at(diasFaltantesPorMes, mes - 1)
     dias
   end
@@ -83,6 +83,56 @@ defmodule CalculoDatas do
         365 + diasAnos(anoA + 1, anoB)
       end
     end
+  end
+  
+  #def anosParaCodInit(ano, cod, init) do
+  #	
+  #end
+  
+  def anosParaCod(ano, cod, cont) do
+  	if cont > cod do
+  		if ehBissexto(ano-1) do
+			[ano-1, cont - 366]
+		else
+			[ano-1, cont - 365]
+		end
+  	else
+  		if ehBissexto(ano) do
+			anosParaCod(ano+1, cod, cont+366)
+		else
+			anosParaCod(ano+1, cod, cont+365)
+		end
+  	end
+  end
+  
+  def mesesParaCod(mes, cod, cont, meses) do
+  	if cont > cod do
+  		[mes-1, cont]
+  	else
+		mesesParaCod(mes+1, cod, cont + hd(meses), tl(meses))
+  	end
+  end
+  
+  def calcularCodData(diaInicial, mesInicial, anoInicial, cod) do
+  	dif = calcularDias(diaInicial, mesInicial, anoInicial, 1, 1, anoInicial)
+  	anoDatCod = anosParaCod(anoInicial, cod, dif)
+  	ano = hd(anoDatCod)
+  	anoCod = hd(tl(anoDatCod))
+  	if ehBissexto(ano) do
+  		meses = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+  		mesDatCod = mesesParaCod(1, cod, anoCod, meses)
+  		mes = hd(mesDatCod)
+  		mesCod = hd(tl(mesDatCod)) - Utils.at(meses, mes)
+  		dia = cod - mesCod + 1
+  		Integer.to_string(dia) <> "/" <> Integer.to_string(mes) <> "/" <> Integer.to_string(ano)
+  	else
+  		meses = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+  		mesDatCod = mesesParaCod(1, cod, anoCod, meses)
+  		mes = hd(mesDatCod)
+  		mesCod = hd(tl(mesDatCod)) - Utils.at(meses, mes)
+  		dia = cod - mesCod + 1
+  		Integer.to_string(dia) <> "/" <> Integer.to_string(mes) <> "/" <> Integer.to_string(ano)
+  	end
   end
 end
 
@@ -118,8 +168,8 @@ defmodule Codificador do
   	cents = Utils.range(list, 9, 10)
   	real = Utils.range(list, 1, 8)
   	realInt = String.to_integer(real)
-  	realStr = Integer.to_string(real)
-  	real <> "," <> cents
+  	realStr = Integer.to_string(realInt)
+  	realStr <> "," <> cents
   end
 
   def padronizarConvenio(convenio) do
@@ -169,14 +219,12 @@ defmodule Decodificador do
   	campo <> Integer.to_string(dv)
   end
   def decodificador(list) do
-  	IO.puts("Código Banco: " <> Utils.range(list, 1, 3))
-  	#IO.puts("Moeda: " <> Codificador.invValor(Utils.at(list, 4)))
-  	IO.puts("Moeda: " <> Utils.at(list, 4))
-  	IO.puts("Data: " <> "01/01/1970")
-  	#
-  	IO.puts("Valor: " <> Utils.range(list, 10, 19))
-  	IO.puts("Tipo convenio: " <> Utils.range(list, 26, 42))
-  	IO.puts("Dados especificos: " <> Utils.range(list, 43, 44))
+  	"Código Banco: " <> Utils.range(list, 1, 3) <> "\n" <>
+  	"Moeda: " <> Utils.at(list, 4) <> "\n" <>
+  	"Data: " <> CalculoDatas.calcularCodData(07, 10, 1997, String.to_integer(Utils.range(list, 6, 9))) <> "\n" <>
+  	"Valor: " <> Codificador.invValor(Utils.range(list, 10, 19)) <> "\n" <>
+  	"Tipo convenio: " <> Utils.range(list, 26, 42) <> "\n" <>
+  	"Dados especificos: " <> Utils.range(list, 43, 44)
   end
 end
 
@@ -228,4 +276,5 @@ defmodule Utils do
 		at(list, actual)
 	end
 end
+
 
